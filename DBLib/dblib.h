@@ -24,7 +24,6 @@ public:
     DBLib(QObject *parent = nullptr);
     static QSqlDatabase db;
 
-    static void start();
     static void connect(QJsonObject props);
     static QJsonObject get(QString dbName, QString SQL, QJsonArray injections);
     static bool insert(QString dbName, QString tableName, QJsonObject injections);

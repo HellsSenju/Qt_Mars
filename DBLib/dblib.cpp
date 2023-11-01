@@ -5,13 +5,20 @@ DBLib::DBLib(QObject *parent) : QObject(parent)
 {
 }
 
+// функция для соединения с бд
 void DBLib::connect(QJsonObject props)
 {
+    // если нужные параметры не были переданы, то параметры подключения берутся из .ini файла
     if(props.isEmpty()){
+        // добавление нового соединения с бд, где первый аргумент - тип драйвера, второй - название соединения
         db = QSqlDatabase::addDatabase("QPSQL", SettingsLib::getField("DB/dbName"));
+        // задание host name для соединения (должно быть задано до открытия соединения) - ip
         db.setHostName(SettingsLib::getField("DB/hostName"));
+        // название базы данных
         db.setDatabaseName(SettingsLib::getField("DB/dbName"));
+        // имя пользователя
         db.setUserName(SettingsLib::getField("DB/userName"));
+        //пароль
         db.setPassword(SettingsLib::getField("DB/password"));
 
     }
@@ -23,19 +30,24 @@ void DBLib::connect(QJsonObject props)
         db.setPassword(props.value("password").toString());
     }
 
+    //открытие соединения
     if(db.open()) qDebug() << "data base open";
     else qDebug() << db.lastError().text();
 }
 
+//запрос на чтение
 QJsonObject DBLib::get(QString dbName, QString SQL, QJsonArray injections)
 {
+    // экземпляр sql запроса к определенной бд
     QSqlQuery q = QSqlQuery(db.database(dbName));
     QJsonObject obj;
+    // подготовка запроса к исполнению
     if(!q.prepare(SQL)) {
         obj.insert("error", q.lastError().text());
         return obj;
     }
 
+    // добавление в запрос аргументов (для большей безопасности)
     for(int i = 0; i < injections.size(); i++)
     {
         QJsonValue value = injections[i];
@@ -45,11 +57,13 @@ QJsonObject DBLib::get(QString dbName, QString SQL, QJsonArray injections)
             q.addBindValue(value.toDouble());
     }
 
+    // выполнение запроса
     if(!q.exec()){
         obj.insert("error", q.lastError().text());
         return obj;
     }
 
+    //забираются данные из ответы
     for(int j = 0; q.next(); j++){
         QJsonObject buff;
 
@@ -62,6 +76,7 @@ QJsonObject DBLib::get(QString dbName, QString SQL, QJsonArray injections)
     return obj;
 }
 
+//запрос на добавление
 bool DBLib::insert(QString dbName, QString tableName, QJsonObject injections)
 {
     QSqlQuery q = QSqlQuery(db.database(dbName));
@@ -92,6 +107,7 @@ bool DBLib::insert(QString dbName, QString tableName, QJsonObject injections)
     return true;
 }
 
+// запрос на изменение
 bool DBLib::update(QString dbName, QString tableName, QJsonObject values, QString filter)
 {
     QSqlQuery q = QSqlQuery(db.database(dbName));
