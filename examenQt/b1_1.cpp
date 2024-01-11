@@ -10,7 +10,6 @@ void b1_1::task_1_1(int rows, int columns)
 {
     qDebug() << "=================================================";
     qDebug() << "Билет 1 Задание 2";
-    QDebug deb = qDebug();
 
     int arr[rows][columns];
     for(int i = 0; i < rows; i++){
