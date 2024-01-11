@@ -4,15 +4,22 @@ b1_1::b1_1()
 {
 }
 
-//  поменять местами максимальный и минимальный элемент в каждой строке
-void b1_1::doTask(int rows, int columns)
+// Билет 1 Задание 2
+// поменять местами максимальный и минимальный элемент в каждой строке
+void b1_1::task_1_1(int rows, int columns)
 {
+    qDebug() << "=================================================";
+    qDebug() << "Билет 1 Задание 2";
+    QDebug deb = qDebug();
+
     int arr[rows][columns];
     for(int i = 0; i < rows; i++){
+        QString print = "";
         for(int j = 0; j < columns; j++){
             arr[i][j] = QRandomGenerator::global()->bounded(-100, 100);
-            qDebug().noquote() << arr[i][j];
+            print += QString::number(arr[i][j]) + " ";
         }
+        qDebug() << print;
     }
 
 
@@ -35,11 +42,16 @@ void b1_1::doTask(int rows, int columns)
         arr[i][minIndex] = max;
     }
 
+    qDebug() << "Билет 1 Задание 2 результат: ";
     for(int i = 0; i < rows; i++){
+        QString print = "";
         for(int j = 0; j < columns; j++){
-            qDebug().noquote() << arr[i][j];
+            print += QString::number(arr[i][j]) + " ";
         }
+        qDebug() << print;
     }
+
+    qDebug() << "=================================================";
 }
 
 

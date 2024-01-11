@@ -4,16 +4,15 @@
 #include <QDebug>
 #include <QRandomGenerator>
 
+#include "stdio.h"
+
 class b1_1
 {
 public:
     b1_1();
 
-    void doTask(int rows, int columns);
+    void task_1_1(int rows, int columns);
 
-private:
-
-    int *arr;
 };
 
 #endif // B1_1_H
