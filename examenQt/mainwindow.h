@@ -7,6 +7,7 @@
 #include <QFile>
 #include <QIODevice>
 #include <QTextStream>
+#include <cstdlib>
 
 #include "b1_1.h"
 
@@ -27,6 +28,8 @@ public:
     void b_1_4();
 
     void b_2_2();
+    void b_2_3();
+    void b_2_4();
 
     void b_3_2();
 
@@ -35,6 +38,8 @@ public:
 
 private:
     QList<int> list_1_3;
+    QList<int> list_2_3_1;
+    QList<int> list_2_3_2;
 
 
 private slots:
@@ -43,6 +48,8 @@ private slots:
     void on_pushButton_3_1_clicked();
 
     void on_pushButton_1_3_clicked();
+
+    void on_pushButton_2_do_clicked();
 
 private:
     Ui::MainWindow *ui;

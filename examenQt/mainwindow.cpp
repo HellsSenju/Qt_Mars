@@ -19,7 +19,26 @@ MainWindow::MainWindow(QWidget *parent)
     }
     //
 
-    b_1_4();
+
+    // Билет 2 Задание 3 - заполнение листа и листВиджет
+    for(int i = 0; i < 10; i++){
+       list_2_3_1 << QRandomGenerator::global()->bounded(0, 10);
+       list_2_3_2 << QRandomGenerator::global()->bounded(0, 10);
+    }
+
+    it = list_2_3_1.begin();
+    while(it != list_2_3_1.end()){
+        ui->listWidget_2_first->addItem(QString::number(*it) + " ");
+        it ++;
+    }
+
+    it = list_2_3_2.begin();
+    while(it != list_2_3_2.end()){
+        ui->listWidget_2_second->addItem(QString::number(*it) + " ");
+        it ++;
+    }
+    //
+
 }
 
 MainWindow::~MainWindow()
@@ -79,6 +98,7 @@ void MainWindow::b_1_2()
 
 }
 
+
 // Билет 1 Задание 3
 //заполнить список рандомно. доавбление в конец, удаление с начала
 void MainWindow::b_1_3()
@@ -100,6 +120,7 @@ void MainWindow::b_1_3()
     }
 }
 
+
 // Билет 1 Задание 4
 // 1. найти сумму компонент файла А и записать в файл В
 // 2. последний компонент файла А и 32 запишите его в файл С
@@ -108,7 +129,7 @@ void MainWindow::b_1_4()
     QFile file_A("file_A.txt");
     QFile file_B("file_B.txt");
     QFile file_C("file_C.txt");
-    if(!file_A.exists("file_A.txt") && !file_B.exists("file_B.txt") && !file_C.exists("file_C.txt"))
+    if(!file_A.exists() && !file_B.exists() && !file_C.exists())
     {
         qDebug() << "Файл не существует";
         return;
@@ -141,7 +162,9 @@ void MainWindow::b_1_4()
     }
 }
 
+
 // Билет 2 Задание 2
+// найти суммы элементов всех четных или нечетных столбцов
 void MainWindow::b_2_2()
 {
     qDebug() << "=================================================";
@@ -177,6 +200,113 @@ void MainWindow::b_2_2()
 
     ui->label_res_2_1->setText(QString::number(sum));
 }
+
+
+// Билет 2 Задание 3
+// заполнить два списка случайными элементами. добавление элемента в первый или второй или в оба(чекбокс)
+void MainWindow::b_2_3()
+{
+    QString input = ui->lineEdit_2_input->text();
+
+    if(ui->checkBox_2_to_both->isChecked()){
+        list_2_3_1.append(input.toInt());
+        list_2_3_2.append(input.toInt());
+
+        ui->listWidget_2_first->clear();
+        ui->listWidget_2_second->clear();
+
+        QList<int>::iterator it = list_2_3_1.begin();
+        while(it != list_2_3_1.end()){
+            ui->listWidget_2_first->addItem(QString::number(*it) + " ");
+            it ++;
+        }
+
+        it = list_2_3_2.begin();
+        while(it != list_2_3_2.end()){
+            ui->listWidget_2_second->addItem(QString::number(*it) + " ");
+            it ++;
+        }
+
+        return;
+    }
+
+    if(ui->checkBox_2_to_first->isChecked()){
+        list_2_3_1.append(input.toInt());
+        ui->listWidget_2_first->clear();
+
+        QList<int>::iterator it = list_2_3_1.begin();
+        while(it != list_2_3_1.end()){
+            ui->listWidget_2_first->addItem(QString::number(*it) + " ");
+            it ++;
+        }
+    }
+
+    if(ui->checkBox_2_to_second->isChecked()){
+        list_2_3_2.append(input.toInt());
+        ui->listWidget_2_second->clear();
+
+        QList<int>::iterator it = list_2_3_2.begin();
+        while(it != list_2_3_2.end()){
+            ui->listWidget_2_second->addItem(QString::number(*it) + " ");
+            it ++;
+        }
+    }
+}
+
+
+// Билет 2 Задание 4
+// найти наибольший элемент, наименьшеий на четной позиции, наибольший модуль на нечетной позиции, разность первого и последнее
+void MainWindow::b_2_4()
+{
+    QFile file_f("file_f.txt");
+
+    if(!file_f.exists())
+    {
+        qDebug() << "Файл не существует";
+        return;
+    }
+
+    if(file_f.open(QIODevice::ReadOnly))
+    {
+        int max = -10000;
+        int minChet = 100000;
+        int maxNechet = -100000;
+        int first = 0;
+        int last = 0;
+        int sub;
+
+        int i = 1;
+        while (!file_f.atEnd()) {
+            int num = file_f.readLine().toInt();
+
+            if(i == 1)
+                first = num;
+
+            if(file_f.atEnd())
+                last = num;
+
+            if(num > max)
+                max = num;
+
+            if((i % 2 == 0) && num < minChet)
+                minChet = num;
+
+            if((i % 2 != 0) && abs(num) > maxNechet)
+                maxNechet = num;
+
+            i++;
+        }
+
+        sub = first - last;
+        qDebug() << "max = " << max;
+        qDebug() << "minChet = " << minChet;
+        qDebug() << "maxNechet = " << maxNechet;
+        qDebug() << "Sub = " << sub;
+
+        file_f.close();
+    }
+}
+
 
 // Билет 3 Задание 2
 void MainWindow::b_3_2()
@@ -220,6 +350,7 @@ void MainWindow::b_3_2()
         ui->label_res_3_1->setText(QString::number(mult));
 }
 
+
 // Билет 4 Задание 2
 // по каждой строке найти кол-во элементов, больших ср ариф всех элем строки
 void MainWindow::b_4_2()
@@ -253,6 +384,7 @@ void MainWindow::b_4_2()
         qDebug() << "в строке - " << i+1 << ", среднее арифм - " << srznach << ", количество - " << kol;
     }
 }
+
 
 // Билет 6 Задание 2
 // дан интовый массив, прибавить к четным элементам первый элемент, первый и послдений элементы не трогать
@@ -301,5 +433,11 @@ void MainWindow::on_pushButton_3_1_clicked()
 void MainWindow::on_pushButton_1_3_clicked()
 {
     b_1_3();
+}
+
+
+void MainWindow::on_pushButton_2_do_clicked()
+{
+    b_2_3();
 }
 
