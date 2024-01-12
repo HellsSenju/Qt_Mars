@@ -2,6 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QDebug>
+#include <QList>
+#include <QFile>
+#include <QIODevice>
+#include <QTextStream>
 
 #include "b1_1.h"
 
@@ -17,10 +22,27 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void b_1_2();
+    void b_1_3();
+    void b_1_4();
+
+    void b_2_2();
+
+    void b_3_2();
+
+    void b_4_2();
+    void b_6_2();
+
+private:
+    QList<int> list_1_3;
+
+
 private slots:
     void on_pushButton_2_1_clicked();
 
     void on_pushButton_3_1_clicked();
+
+    void on_pushButton_1_3_clicked();
 
 private:
     Ui::MainWindow *ui;
