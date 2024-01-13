@@ -10,10 +10,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Билет 1 Задание 3 - заполнение листа и листВиджет
     for(int i = 0; i < 10; i++)
-       list_1_3 << QRandomGenerator::global()->bounded(0, 10);
+       list_1 << QRandomGenerator::global()->bounded(0, 10);
 
-    QList<int>::iterator it = list_1_3.begin();
-    while(it != list_1_3.end()){
+    QList<int>::iterator it = list_1.begin();
+    while(it != list_1.end()){
         ui->listWidget_1_3->addItem(QString::number(*it) + " ");
         it ++;
     }
@@ -22,22 +22,36 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Билет 2 Задание 3 - заполнение листа и листВиджет
     for(int i = 0; i < 10; i++){
-       list_2_3_1 << QRandomGenerator::global()->bounded(0, 10);
-       list_2_3_2 << QRandomGenerator::global()->bounded(0, 10);
+       list_2_1 << QRandomGenerator::global()->bounded(0, 10);
+       list_2_2 << QRandomGenerator::global()->bounded(0, 10);
     }
 
-    it = list_2_3_1.begin();
-    while(it != list_2_3_1.end()){
+    it = list_2_1.begin();
+    while(it != list_2_1.end()){
         ui->listWidget_2_first->addItem(QString::number(*it) + " ");
         it ++;
     }
 
-    it = list_2_3_2.begin();
-    while(it != list_2_3_2.end()){
+    it = list_2_2.begin();
+    while(it != list_2_2.end()){
         ui->listWidget_2_second->addItem(QString::number(*it) + " ");
         it ++;
     }
     //
+
+
+    // Билет 3 Задание 3 - заполнение листа и листВиджет
+    for(int i = 0; i < 10; i++)
+       list_3 << QRandomGenerator::global()->bounded(0, 10);
+
+    it = list_3.begin();
+    while(it != list_3.end()){
+        ui->listWidget_3->addItem(QString::number(*it) + " ");
+        it ++;
+    }
+    //
+
+    b_3_4();
 
 }
 
@@ -104,16 +118,16 @@ void MainWindow::b_1_2()
 void MainWindow::b_1_3()
 {
     if(ui->radioButton_1_3_end->isChecked()){
-        list_1_3.push_back(QRandomGenerator::global()->bounded(0, 10));
-        ui->listWidget_1_3->addItem(QString::number(list_1_3.last()) + " ");
+        list_1.push_back(QRandomGenerator::global()->bounded(0, 10));
+        ui->listWidget_1_3->addItem(QString::number(list_1.last()) + " ");
     }
 
     else if(ui->radioButton_1_3_beginning->isChecked()){
-        list_1_3.pop_front();
+        list_1.pop_front();
         ui->listWidget_1_3->clear();
 
-        QList<int>::iterator it = list_1_3.begin();
-        while(it != list_1_3.end()){
+        QList<int>::iterator it = list_1.begin();
+        while(it != list_1.end()){
             ui->listWidget_1_3->addItem(QString::number(*it) + " ");
             it ++;
         }
@@ -209,20 +223,20 @@ void MainWindow::b_2_3()
     QString input = ui->lineEdit_2_input->text();
 
     if(ui->checkBox_2_to_both->isChecked()){
-        list_2_3_1.append(input.toInt());
-        list_2_3_2.append(input.toInt());
+        list_2_1.append(input.toInt());
+        list_2_2.append(input.toInt());
 
         ui->listWidget_2_first->clear();
         ui->listWidget_2_second->clear();
 
-        QList<int>::iterator it = list_2_3_1.begin();
-        while(it != list_2_3_1.end()){
+        QList<int>::iterator it = list_2_1.begin();
+        while(it != list_2_1.end()){
             ui->listWidget_2_first->addItem(QString::number(*it) + " ");
             it ++;
         }
 
-        it = list_2_3_2.begin();
-        while(it != list_2_3_2.end()){
+        it = list_2_2.begin();
+        while(it != list_2_2.end()){
             ui->listWidget_2_second->addItem(QString::number(*it) + " ");
             it ++;
         }
@@ -231,22 +245,22 @@ void MainWindow::b_2_3()
     }
 
     if(ui->checkBox_2_to_first->isChecked()){
-        list_2_3_1.append(input.toInt());
+        list_2_1.append(input.toInt());
         ui->listWidget_2_first->clear();
 
-        QList<int>::iterator it = list_2_3_1.begin();
-        while(it != list_2_3_1.end()){
+        QList<int>::iterator it = list_2_1.begin();
+        while(it != list_2_1.end()){
             ui->listWidget_2_first->addItem(QString::number(*it) + " ");
             it ++;
         }
     }
 
     if(ui->checkBox_2_to_second->isChecked()){
-        list_2_3_2.append(input.toInt());
+        list_2_2.append(input.toInt());
         ui->listWidget_2_second->clear();
 
-        QList<int>::iterator it = list_2_3_2.begin();
-        while(it != list_2_3_2.end()){
+        QList<int>::iterator it = list_2_2.begin();
+        while(it != list_2_2.end()){
             ui->listWidget_2_second->addItem(QString::number(*it) + " ");
             it ++;
         }
@@ -351,6 +365,75 @@ void MainWindow::b_3_2()
 }
 
 
+// Билет 3 Задание 3
+void MainWindow::b_3_3()
+{
+    int n = ui->lineEdit_3_n->text().toInt();
+    int k = ui->lineEdit_3_k->text().toInt();
+
+    if(n < 0 || n >= list_3.size() || n > k || k < 0 || k >= list_3.size())
+        return;
+
+    int i = 0;
+    while(i < (k - n + 1)){
+        list_3.removeAt(n);
+        i++;
+    }
+
+    QList<int>::iterator it = list_3.begin();
+    while(it != list_3.end()){
+        ui->listWidget_3_2->addItem(QString::number(*it) + " ");
+        it ++;
+    }
+}
+
+
+// Билет 3 Задание 4
+void MainWindow::b_3_4()
+{
+    QFile file_f("file_f.txt");
+    QFile file_g("file_g.txt");
+
+    if(!file_f.exists() && !file_g.exists())
+    {
+        qDebug() << "Файл не существует";
+        return;
+    }
+
+    if(file_f.open(QIODevice::ReadOnly) && file_g.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        QList<int> list;
+        QTextStream writeStream(&file_g);
+
+        int i = 1;
+        while (!file_f.atEnd()) {
+            int num = file_f.readLine().toInt();
+
+            list.append(num);
+
+            if(i % 5 == 0 || file_f.atEnd()) {
+                int max = -10000;
+                QList<int>::iterator it = list.begin();
+                while(it != list.end()){
+                    if(*it > max)
+                        max = *it;
+
+                    it ++;
+                }
+
+                writeStream << QString::number(max) << "\n";
+                list.clear();
+            }
+
+            i++;
+        }
+
+        file_f.close();
+        file_g.close();
+    }
+}
+
+
 // Билет 4 Задание 2
 // по каждой строке найти кол-во элементов, больших ср ариф всех элем строки
 void MainWindow::b_4_2()
@@ -439,5 +522,11 @@ void MainWindow::on_pushButton_1_3_clicked()
 void MainWindow::on_pushButton_2_do_clicked()
 {
     b_2_3();
+}
+
+
+void MainWindow::on_pushButton_3_do_clicked()
+{
+    b_3_3();
 }
 
